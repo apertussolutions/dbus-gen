@@ -46,23 +46,12 @@ func removeSplit(name, token, delim string) string {
 	return name
 }
 
+func SplitCamelCase(r rune) bool {
+	return r == '.' || r == '-' || r == '_'
+}
+
 func CamelCase(name string, private bool) string {
-	var delim string
-
-	switch {
-	case strings.Contains(name, "."):
-		delim = "."
-	case strings.Contains(name, "-"):
-		delim = "-"
-	case strings.Contains(name, "_"):
-		delim = "_"
-	default:
-		delim = "_"
-	}
-
-	name = addSplit(name, "xen", delim)
-
-	words := strings.Split(name, delim)
+	words := strings.FieldsFunc(name, SplitCamelCase)
 
 	for i, w := range words {
 		words[i] = strings.Title(w)
